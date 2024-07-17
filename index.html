@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Command Interface</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .microphone-button {
+            margin-top: 20px;
+            width: 100px;
+            height: 100px;
+            background-color: #ff0000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden; /* Ensures the overflow doesn't affect the animation */
+        }
+
+        .microphone-button:hover {
+            background-color: #ff4d4d;
+            animation: rotate 1s linear infinite, pulse 1.5s ease-in-out infinite alternate;
+        }
+
+        .microphone-button:hover .mic-icon {
+            animation: rotate 1s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .microphone-button::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+            border-radius: 50%;
+            z-index: -1; /* Ensure it's behind the mic icon */
+        }
+
+        .mic-icon {
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .mic-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+        }
+
+        .mic-icon::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 3px;
+            background-color: #fff;
+            border-radius: 1px;
+        }
+
+        #doneMessage {
+            color: #00ff00; /* Green color for "Done" message */
+            font-size: 16px;
+            margin-top: 10px;
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p id="status">Click the button and speak...</p>
+        <p id="doneMessage">Done</p>
+        <div id="micButton" class="microphone-button" onclick="startListening()">
+            <div class="mic-icon"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Alert message when the page loads
+        window.onload = function() {
+            alert('Welcome! Please say "Open" to start using voice commands.');
+        };
+
+        function startListening() {
+            const status = document.getElementById('status');
+            const doneMessage = document.getElementById('doneMessage');
+            const micButton = document.getElementById('micButton');
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+            recognition.onstart = function() {
+                status.textContent = 'Listening...';
+                micButton.classList.add('listening');
+            };
+
+            recognition.onspeechend = function() {
+                status.textContent = 'Processing...';
+                micButton.classList.remove('listening');
+                recognition.stop();
+            };
+
+            recognition.onresult = function(event) {
+                const command = event.results[0][0].transcript.toLowerCase();
+                status.textContent = `You said: ${command}`;
+
+                if (command.includes('open youtube')) {
+                    window.open('https://www.youtube.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open google')) {
+                    window.open('https://www.google.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open facebook')) {
+                    window.open('https://www.facebook.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open instagram')) {
+                    window.open('https://www.instagram.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open chrome')) {
+                    window.open('https://chrome.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open disney hotstar')) {
+                    window.open('https://www.hotstar.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open jiocinema')) {
+                    window.open('https://www.jiocinema.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open whatsapp')) {
+                    window.open('https://web.whatsapp.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open gmail')) {
+                    window.open('https://mail.google.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open google maps')) {
+                    window.open('https://www.google.com/maps', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open amazon')) {
+                    window.open('https://www.amazon.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open meesho')) {
+                    window.open('https://www.meesho.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open flipkart')) {
+                    window.open('https://www.flipkart.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open steam')) {
+                    window.open('https://store.steampowered.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open epic games')) {
+                    window.open('https://www.epicgames.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open gog')) {
+                    window.open('https://www.gog.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open itch.io')) {
+                    window.open('https://itch.io', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open github')) {
+                    window.open('https://github.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open gitlab')) {
+                    window.open('https://gitlab.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open stack overflow')) {
+                    window.open('https://stackoverflow.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open codecademy')) {
+                    window.open('https://www.codecademy.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open udemy')) {
+                    window.open('https://www.udemy.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open coursera')) {
+                    window.open('https://www.coursera.org', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open khan academy')) {
+                    window.open('https://www.khanacademy.org', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open duolingo')) {
+                    window.open('https://www.duolingo.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open spotify')) {
+                    window.open('https://www.spotify.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open netflix')) {
+                    window.open('https://www.netflix.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open hulu')) {
+                    window.open('https://www.hulu.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open crunchyroll')) {
+                    window.open('https://www.crunchyroll.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open prime video')) {
+                    window.open('https://www.primevideo.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open vudu')) {
+                    window.open('https://www.vudu.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open disney plus')) {
+                    window.open('https://www.disneyplus.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open udacity')) {
+                    window.open('https://www.udacity.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open edx')) {
+                    window.open('https://www.edx.org', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open coursera')) {
+                    window.open('https://www.coursera.org', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open udemy')) {
+                    window.open('https://www.udemy.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open skillshare')) {
+                    window.open('https://www.skillshare.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open sololearn')) {
+                    window.open('https://www.sololearn.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open twitch')) {
+                    window.open('https://www.twitch.tv', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open mixer')) {
+                    window.open('https://mixer.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open deviantart')) {
+                    window.open('https://www.deviantart.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open dribbble')) {
+                    window.open('https://dribbble.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open behance')) {
+                    window.open('https://www.behance.net', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open medium')) {
+                    window.open('https://medium.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open bbc')) {
+                    window.open('https://www.bbc.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open cnn')) {
+                    window.open('https://edition.cnn.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open nyt')) {
+                    window.open('https://www.nytimes.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open wsj')) {
+                    window.open('https://www.wsj.com', '_blank');
+                    showDoneMessage();
+                } else if (command.includes('open reuters')) {
+                    window.open('https://www.reuters.com', '_blank');
+                    showDoneMessage();
+                } else {
+                    status.textContent = 'Didn\'t recognize that command. Please say "Open our app".';
+                }
+            };
+
+            recognition.onerror = function(event) {
+                status.textContent = 'Error occurred in recognition: ' + event.error;
+                micButton.classList.remove('listening');
+            };
+
+            function showDoneMessage() {
+                doneMessage.style.display = 'block'; // Show the "Done" message
+                setTimeout(function() {
+                    doneMessage.style.display = 'none'; // Hide the "Done" message after 2 seconds
+                }, 2000);
+            }
+
+            recognition.start();
+        }
+    </script>
+</body>
+</html>
